@@ -1,0 +1,43 @@
+<div class="parent">
+    <div class="container" [class.active]="isActive">
+        <div class="form-box login">
+            <form [formGroup]="loginForm" (ngSubmit)="submitForm2()">
+                <h1>Connexion</h1>
+                <div *ngIf="errorMessage" class="error-message">
+                    {{ errorMessage }}
+                </div>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Username" formControlName="username" required>
+                    <i class='bx bxs-user'></i>
+                    <div *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)" class="field-error">
+                        Ce champ est obligatoire
+                    </div>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password" placeholder="Password" formControlName="password" required>
+                    <i class='bx bxs-lock-alt' ></i>
+                    <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="field-error">
+                        Ce champ est obligatoire
+                    </div>
+                </div>
+                <div class="forgot-link">
+                    <a href="#">Mot de passe oublié?</a>
+                </div>
+                <button type="submit" class="btn">Connexion</button>
+                
+            </form>
+        </div>
+    
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Bienvenue sur Teranga Gestion !</h1>
+                <p>Heureux de vous retrouver !</p>
+            </div>
+    
+            
+        </div>
+        
+    </div>
+
+</div>
+

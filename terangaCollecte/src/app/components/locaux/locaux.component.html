@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<div class="parent">
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="logo-details">
+            <img src="logoT.png">
+            <div class="logo_name">TerangaGestion</div>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/dashboard">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/recensements">
+                    <i  class='bx bx-box'></i>
+                    <span class="links_name">Recensements</span>
+                </a>
+            </li>
+            <li>
+                <a href="/evaluation">
+                    <i  class='bx bx-calculator'></i>
+                    <span class="links_name">Evaluation</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locaux" class="active">
+                    <i  class='bx bx-home'></i>
+                    <span class="links_name">Biens</span>
+                </a>
+            </li>
+            <li>
+                <a href="/proprietaires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Propriétaires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locataires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Locataires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/utilisateurs">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="/profil">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Profil</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/parametres">
+                    <i  class='bx bx-cog'></i>
+                    <span class="links_name">Paramètres</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"(click)="logout(); $event.preventDefault()">
+                    <i  class='bx bx-log-out'></i>
+                    <span class="links_name">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+          <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
+            
+          </div>
+          <div class="search-box">
+            <input type="text" placeholder="Rechercher...">
+            <i class='bx bx-search'></i>
+          </div>
+        
+        </nav>
+        
+        <div class="container">
+            
+            <div class="row">
+                
+                <div class="col-15">
+                    <div class="panel panel-success">
+            
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Locaux</h3>
+                        </div>
+                        
+                        <table class="table table-hover" id="task-table">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>Matricule</th>
+                                    <th>Région</th>
+                                    <th>Département</th>
+                                    <th>Commune</th>
+                                    <th>Section</th>
+                                    <th>Nicad</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let local of locaux; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ local.identifiant }}</td>
+                                    <td>{{ local.parcelle?.region }}</td>
+                                    <td>{{ local.parcelle?.nomDepart }}</td>
+                                    <td>{{ local.parcelle?.nomCommun }}</td>
+                                    <td>{{ local.parcelle?.numSect }}</td>
+                                    <td>{{ local.parcelle?.nicad }}</td>
+                                    <td>
+                                        <a href="" class="btn-consulter">Consulter</a>
+                                        <a href="" class="btn-editer">Éditer</a>
+                                        <a href="" class="btn-evaluer">Évaluer</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <a href="#" class="btn-ajouter">Ajouter</a>
+        </div>
+        
+      </section>
+</div>
+    
+    
+      
+
+
+
+
+
+
+
+
+

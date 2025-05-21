@@ -1,0 +1,96 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+        <h2>Ajouter un recensement</h2>        
+        <form (ngSubmit)="onSubmit()">    
+            <div class="form-group">
+                <label for="service">Titre</label>
+                <input type="text" id="titre" name="titre" [(ngModel)]="recensement.titre">
+            </div>        
+            <div class="date-group">
+                <div class="form-group">
+                    <label for="region">Région</label>
+                    <select id="region" name="region" [(ngModel)]="recensement.region" (change)="onRegionChange($any($event.target).value)" required>
+                        <option value="">Sélectionner une région</option>
+                        <option *ngFor="let region of regions" [value]="region.nom">{{ region.nom }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="departement">Département</label>
+                    <select id="departement" name="departement" [(ngModel)]="recensement.departement" 
+                            (change)="onDepartementChange($any($event.target).value)" required
+                            [disabled]="!recensement.region">
+                        <option value="">Sélectionner un département</option>
+                        <option *ngFor="let departement of departements" [value]="departement">{{ departement }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="commune">Commune</label>
+                <select id="commune" name="commune" [(ngModel)]="recensement.commune" 
+                        (change)="onCommuneChange($any($event.target).value)" required
+                        [disabled]="!recensement.departement">
+                    <option value="">Sélectionner une commune</option>
+                    <option *ngFor="let commune of communes" [value]="commune">{{ commune }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="section">Section</label>
+                <select id="section" name="section" [(ngModel)]="recensement.section" required
+                        [disabled]="!recensement.commune">
+                    <option value="">Sélectionner une section</option>
+                    <option *ngFor="let section of sections" [value]="section">{{ section }}</option>
+                </select>
+            </div> 
+            <div class="date-group">
+                <div class="form-group">
+                    <label for="service">Service</label>
+                    <input type="text" id="service" name="service" [(ngModel)]="recensement.service">
+                </div>
+                        
+                <div class="form-group">
+                    <label for="methode">Type de service</label>
+                    <select id="typeService" name="typeService" [(ngModel)]="recensement.typeService">
+                        <option value="Classique">eee</option>
+                    </select>
+                </div>        
+            </div>           
+                
+            <div class="date-group">
+                <div class="form-group">
+                    <label for="dateDebut">Date de début</label>
+                    <input type="datetime-local" id="dateDebut" name="dateDebut" [(ngModel)]="recensement.dateDebut">
+                </div>
+                <div class="form-group">
+                    <label for="dateFin">Date de fin</label>
+                    <input type="datetime-local" id="dateFin" name="dateFin" [(ngModel)]="recensement.dateFin">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="commentaire">Commentaire</label>
+                <textarea id="commentaire" name="commentaire" [(ngModel)]="recensement.commentaire" 
+                    placeholder="Ajoutez vos commentaires ici..."></textarea>
+            </div>         
+            <div class="form-group">
+                <label for="service">Agents de terrain</label>                <select id="service" name="service" [(ngModel)]="selectedAgent" (ngModelChange)="addAgent($event)">
+                    <option [ngValue]="null">Sélectionner un agent</option>
+                    <option *ngFor="let agent of agents" [ngValue]="agent">{{ agent.prenom }} {{ agent.nom }}</option>
+                </select>
+                <div class="selected-agents" *ngIf="selectedAgents.length > 0">
+                    <div class="agent-tag" *ngFor="let agent of selectedAgents">
+                        {{ agent.prenom }} {{ agent.nom }}
+                        <button type="button" class="remove-agent" (click)="removeAgent(agent)">&times;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="cancel" (click)="close()">Annuler</button>
+                <button type="submit" class="submit">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>

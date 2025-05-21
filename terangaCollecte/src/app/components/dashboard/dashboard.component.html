@@ -1,0 +1,177 @@
+<div class="parent">
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="logo-details">
+            <img src="logoT.png">
+            <div class="logo_name">TerangaGestion</div>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/dashboard" class="active">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/recensements">
+                    <i  class='bx bx-box'></i>
+                    <span class="links_name">Recensements</span>
+                </a>
+            </li>
+            <li>
+              <a href="/evaluation">
+                  <i  class='bx bx-calculator'></i>
+                  <span class="links_name">Evaluation</span>
+              </a>
+          </li>
+            <li>
+                <a href="/locaux">
+                    <i  class='bx bx-home'></i>
+                    <span class="links_name">Biens</span>
+                </a>
+            </li>
+            <li>
+                <a href="/proprietaires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Propriétaires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locataires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Locataires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/utilisateurs">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="/profil">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Profil</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/parametres">
+                    <i  class='bx bx-cog'></i>
+                    <span class="links_name">Paramètres</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" (click)="logout(); $event.preventDefault()">
+                    <i  class='bx bx-log-out'></i>
+                    <span class="links_name">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+          <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
+            
+          </div>
+          <div class="nf-circle">NF</div>
+        </nav>
+    
+        <div class="home-content">
+          <div class="overview-boxes">
+            <div class="box">
+              <div class="right-side">
+                <div class="box-topic">Recensements</div>
+                <div class="number">{{ recensementCount }}</div>
+              </div>
+              <i class='bx bx-box'></i>
+            </div>
+            <div class="box">
+              <div class="right-side">
+                <div class="box-topic">Locaux</div>
+                <div class="number">{{ bienCount }}</div>
+              </div>
+              <i class='bx bx-home' ></i>
+            </div>
+            <div class="box">
+              <div class="right-side">
+                <div class="box-topic">Propriétaires</div>
+                <div class="number">{{ proprietaireCount }}</div>
+              </div>
+              <i class='bx bx-user' ></i>
+            </div>
+            <div class="box">
+              <div class="right-side">
+                <div class="box-topic">Locataires</div>
+                <div class="number">{{ locataireCount }}</div>
+              </div>
+              <i class='bx bx-user'></i>
+            </div>
+          </div>
+    
+          <div class="grid">
+            <div class="map box">
+              <div id="map"></div>
+            </div>
+            <div class="top-dropdown box">
+              <div class="title">Recherche de biens par parcelle</div>
+              <label class="wrapper" for="states">Région</label>
+              <div class="button dropdown"> 
+                <select id="colorselector"(change)="onRegionChange($any($event.target).value)">
+                  <option value="">-- Sélectionnez une région --</option>
+                  <option *ngFor="let region of regions" [value]="region.nom">{{ region.nom }}</option>
+                </select>
+              </div>
+                <div class="espace"></div>
+                <label class="wrapper" for="states">Département</label>
+                <div class="button dropdown"> 
+                <select id="colorselector" (change)="onDepartementChange($any($event.target).value)">
+                    <option value="">-- Sélectionnez un département --</option>
+                    <option *ngFor="let departement of departements" [value]="departement">{{ departement }}</option>
+                </select>
+                </div>
+                <div class="espace"></div>
+                <label class="wrapper" for="states">Commune</label>
+                <div class="button dropdown"> 
+                <select id="colorselector" (change)="onCommuneChange($any($event.target).value)">
+                    <option value="">-- Sélectionnez une commune --</option>
+                    <option *ngFor="let commune of communes" [value]="commune">{{ commune }}</option>
+                </select>
+                </div>
+                <div class="espace"></div>
+                <label class="wrapper" for="states">Section</label>
+                <div class="button dropdown"> 
+                <select id="colorselector" (change)="onSectionChange($any($event.target).value)">
+                    <option value="">-- Sélectionnez une section --</option>
+                    <option *ngFor="let section of sections" [value]="section">{{ section }}</option>
+                </select>
+                </div>
+                <div class="espace"></div>
+                <label class="wrapper" for="states">Parcelle</label>
+                <div class="button dropdown"> 
+                <select id="colorselector" (change)="onParcelleChange($any($event.target).value)">
+                    <option value="">-- Sélectionnez une parcelle --</option>
+                    <option *ngFor="let parcelle of parcelles" [value]="parcelle">{{ parcelle }}</option>
+                </select>
+                </div>
+                <div class="button">
+                  <a href="#" (click)="goToLocauxParcelle(); $event.preventDefault()">Valider</a>
+                </div>
+             
+            </div>
+          </div>
+        </div>
+      </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

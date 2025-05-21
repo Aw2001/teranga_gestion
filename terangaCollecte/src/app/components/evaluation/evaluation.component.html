@@ -1,0 +1,713 @@
+<div class="parent">
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="logo-details">
+            <img src="logoT.png">
+            <div class="logo_name">TerangaGestion</div>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/dashboard">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/recensements">
+                    <i class='bx bx-box'></i>
+                    <span class="links_name">Recensements</span>
+                </a>
+            </li>
+            <li>
+                <a href="/evaluation" class="active">
+                    <i class='bx bx-calculator'></i>
+                    <span class="links_name">Evaluation</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locaux">
+                    <i class='bx bx-home'></i>
+                    <span class="links_name">Biens</span>
+                </a>
+            </li>
+            <li>
+                <a href="/proprietaires">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Propriétaires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locataires">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Locataires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/utilisateurs">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="/profil">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/parametres">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Paramètres</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"(click)="logout(); $event.preventDefault()">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+            <div class="sidebar-button">
+                <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
+            </div>
+
+            <!-- <div class="search-box">
+            <input type="text" placeholder="Rechercher...">
+            <i class='bx bx-search'></i>
+          </div>-->
+
+        </nav>
+
+        <div class="container">
+
+            <!--Section info enquête-->
+            <div id="calcul">
+                <h2>Evaluation</h2>
+                <label>Enquête</label>
+                <input type="text" [(ngModel)]="enqueteur" name="enqueteur">
+                <label>Date de l'enquête</label>
+                <input type="date" [(ngModel)]="dateEnquete" name="dateEnquete">
+            </div>
+
+            <!--Section info cadastrales-->
+            <div id="calcul">
+                <h2>Références cadastrales et situation de la propriété</h2>
+                
+                <label>Numéro section</label>
+                <input type="text" [(ngModel)]="section" name="section" 
+                (input)="validateNumSection()">
+                <div *ngIf="numSectionError" style="color: red;">
+                    {{ numSectionError }}
+                </div>
+                <label>NICAD</label>
+                <input type="text" [(ngModel)]="nicad" name="nicad" #nicadInput="ngModel"
+                (input)="validateNicad()">
+                <div *ngIf="nicadError" style="color: red;">
+                    {{ nicadError }}
+                </div>
+                <label>Numéro parcelle</label>
+                <input type="text" [(ngModel)]="numParcelle" name="numParcelle"
+                (input)="validateNumParcelle()">
+                <div *ngIf="numParcelleError" style="color: red;">
+                    {{ numParcelleError }}
+                </div>
+                <label>Numéro TF</label>
+                <input type="number" [(ngModel)]="numTF" name="numTF">
+                <label>Rue</label>
+                <input type="text" [(ngModel)]="rue" name="rue">
+                <label>Type de construction</label>
+                <input type="text" [(ngModel)]="typeConstruction" name="typeConstruction">
+                <label>Type de toiture</label>
+                <select id="typeToiture" name="typeToiture" [(ngModel)]="typeToiture">
+                    <option>Tuile</option>
+                    <option>Fibrociment</option>
+                    <option>Dalle</option>
+                    <option>Tôle galvanisée</option>
+                </select>
+                <label>Type de sol</label>
+                <select id="typeSol" name="typeSol" [(ngModel)]="typeSol">
+                    <option>Carrelé</option>
+                    <option>Non carrelé</option>
+                </select>
+                <label>Type de menuiserie</label>
+                <select id="typeMenuiserie" name="typeMenuiserie" [(ngModel)]="typeMenuiserie">
+                    <option>Aluminium</option>
+                    <option>Bois noble</option>
+                    <option>Bois fraké ou similaire</option>
+                    <option>Bois isoplane</option>
+                    <option>Fer forgé</option>
+                </select>
+                <label>Type de destination</label>
+                <input type="text" [(ngModel)]="destination" name="destination">
+                <label>Année de construction</label>
+                <input type="number" [(ngModel)]="anneeConstruction" name="anneeConstruction">
+
+            </div>
+
+            <!--Section info propriétaire-->
+            <div id="calcul">
+                <h2>Propriétaire</h2>
+                <label>Prénom</label>
+                <input type="text" [(ngModel)]="prenom" name="prenom">
+                <label>Nom</label>
+                <input type="text" [(ngModel)]="nom" name="nom">
+                <label>CNI</label>
+                <input type="text" [(ngModel)]="cni" name="cni"
+                (input)="validateCni()">
+                <div *ngIf="cniError" style="color: red;">
+                    {{ cniError }}
+                </div>
+                <label>Profession/Activité</label>
+                <input type="text" [(ngModel)]="profession" name="profession">
+                <label>NINEA</label>
+                <input type="text" [(ngModel)]="ninea" name="ninea">
+                <label>Loyer annuel</label>
+                <input type="number" [(ngModel)]="loyerAnnuel" name="loyerAnnuel">
+                <label>Type de référence</label>
+                <select id="typeReference" name="typeReference" [(ngModel)]="typeReference">
+                    <option>Résidence principale</option>
+                    <option>Résidence secondaire</option>
+                </select>
+                <label>Statut</label>
+                <select id="statut" name="statut" [(ngModel)]="statut">
+                    <option>Propriétaire seul</option>
+                    <option>Locataire</option>
+                    <option>Indivision</option>
+                    <option>Co-propriété</option>
+                    <option>Titulaire de droit</option>
+                </select>
+            </div>
+
+            <form>
+                <!--Section terrain-->
+                <div id="calcul">
+                    <h2>Evaluation du terrain</h2>
+                    <label>Région</label>
+                    <select id="region" name="region" [(ngModel)]="region" (change)="checkInputs3()" required>
+                        <option>Dakar</option>
+                        <option>Diourbel</option>
+                        <option>Fatick</option>
+                        <option>Kaffrine</option>
+                        <option>Kaolack</option>
+                        <option>Kédougou</option>
+                        <option>Kolda</option>
+                        <option>Louga</option>
+                        <option>Matam</option>
+                        <option>Saint-Louis</option>
+                        <option>Sédhiou</option>
+                        <option>Tambacounda</option>
+                        <option>Thiès</option>
+                        <option>Ziguinchor</option>
+                    </select>
+                    <div *ngIf="regionError" style="color: red;">
+                        {{ regionError }}
+                    </div>
+                    <label>Département</label>
+                    <select id="departement" name="departement" [(ngModel)]="departement" (ngModelChange)="checkInputs1()"
+                        required>
+                        <option *ngFor="let departement of departements" [value]="departement">{{ departement }}</option>
+                    </select>
+                    <div *ngIf="departementError" style="color: red;">
+                        {{ departementError }}
+                    </div>
+                    <label>Commune</label>
+                    <select id="commune" name="commune" [(ngModel)]="commune" (ngModelChange)="checkInputs()" required>
+                        <option *ngFor="let commune of communes" [value]="commune">{{ commune }}</option>
+                    </select>
+                    <div *ngIf="communeError" style="color: red;">
+                        {{ communeError }}
+                    </div>
+                    <label>Secteur</label>
+                    <select id="secteur" name="secteur" [(ngModel)]="secteur" (ngModelChange)="checkInputs2()" required>
+                        <option *ngFor="let secteur of secteurs" [value]="secteur">{{ secteur }}</option>
+                    </select>
+                    <div *ngIf="secteurError" style="color: red;">
+                        {{ secteurError }}
+                    </div>
+                    <label>Zone</label>
+                    <select id="zone" name="zone" [(ngModel)]="zone" required>
+                        <option *ngFor="let zone of zones" [value]="zone">{{ zone }}</option>
+                    </select>
+                    <div *ngIf="zoneError" style="color: red;">
+                        {{ zoneError }}
+                    </div>
+                    <label>Surface du terrain (m2)</label>
+                    <input type="number" [(ngModel)]="surfaceTerrain" name="surfaceTerrain">
+                    <label>Surface bâtie (m2)</label>
+                    <input type="number" [(ngModel)]="surfaceBatie" name="surfaceBatie">
+
+                    <button type="button" class="evaluer" (click)="evaluerTerrain()">Evaluer</button>
+                    <p>
+                        <strong>Surface non bâtie: </strong> <span>{{surfaceNonBatie}}</span>
+                        <strong>Prix du m2 non bâti: </strong> <span>{{prixM2NonBati}}</span>
+                        <strong>Valeur du sol non bâti: </strong> <span>{{valeurSolNonBati}}</span>
+
+
+                    </p>
+                    <p>
+                        <strong>Prix du m2 bâti: </strong> <span>{{this.prixM2Bati}}</span>
+                        <strong>Valeur du sol bâti: </strong> <span>{{valeurSolBati}}</span>
+                        <strong>Valeur totale du sol: </strong> <span>{{valeurSolTotal}}</span>
+
+
+                    </p>
+                </div>
+            </form>
+
+            <form id="formulaireCalculEte">
+                <!-- Section 2: local -->
+                <div id="calcul">
+                    <h2>Evaluation du local</h2>
+                    <label>Région</label>
+                    <select id="region" name="region" [(ngModel)]="region" (change)="checkInputs3()" required>
+                        <option>Dakar</option>
+                        <option>Diourbel</option>
+                        <option>Fatick</option>
+                        <option>Kaffrine</option>
+                        <option>Kaolack</option>
+                        <option>Kédougou</option>
+                        <option>Kolda</option>
+                        <option>Louga</option>
+                        <option>Matam</option>
+                        <option>Saint-Louis</option>
+                        <option>Sédhiou</option>
+                        <option>Tambacounda</option>
+                        <option>Thiès</option>
+                        <option>Ziguinchor</option>
+                    </select>
+                    <div *ngIf="regionError" style="color: red;">
+                        {{ regionError }}
+                    </div>
+                    <label>Type immeuble</label>
+                    <select id="typeImmeuble" name="typeImmeuble" [(ngModel)]="typeImmeuble"
+                        (change)="updateCategories()">
+                        <option>Individuel</option>
+                        <option>Collectif</option>
+                    </select>
+                    <label>Surface de l'assise au sol (en m2)</label>
+                    <input type="number" [(ngModel)]="surfaceBatie" name="surfaceBatie" required>
+                    <label>Surface balcon (en m2)</label>
+                    <input type="number" [(ngModel)]="surfaceBalcon" name="surfaceBalcon" required>
+                    <label>Nombre de niveaux</label>
+                    <input type="number" [(ngModel)]="nbNiveau" name="nbNiveau" required>
+                    <label>Nombre d'années</label>
+                    <input type="number" [(ngModel)]="nbAnnee" name="nbAnnee" required>
+                    <label>Catégorie</label>
+                    <select [(ngModel)]="categorie" name="categorie" required>
+                        <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+                    </select>
+                    <label>Coef entretien/vétusté</label>
+                    <select [(ngModel)]="coefVet" name="coefVet" required>
+                        <option>0.3</option>
+                        <option>0.4</option>
+                        <option>0.5</option>
+                        <option>0.6</option>
+                        <option>0.7</option>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                    </select>
+                    <label>Coef voisinage</label>
+                    <select [(ngModel)]="coefVoi" name="coefVoi" required>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                        <option>1.1</option>
+                    </select>
+                    <button type="button" class="evaluer" (click)="evaluerLocal()">Evaluer</button>
+                    <p>
+                        <strong>Surface hors oeuvre: </strong> <span>{{surfaceHorsOeuvre}}</span>
+                        <strong>Surface utile: </strong> <span>{{surfaceUtile}}</span>
+                        <strong>Abattement d'ancienneté: </strong> <span>{{abattement}}</span>
+
+
+                    </p>
+                    <p>
+                        <strong>Surface corrigée: </strong> <span>{{surfaceCorrigee}}</span>
+                        <strong>Prix du m2: </strong> <span>{{prixM2Local}}</span>
+                        <strong>Valeur du local: </strong> <span>{{valeurLocal}}</span>
+
+                    </p>
+                </div>
+
+            </form>
+            <form>
+                <!--Section cours-->
+                <div id="calcul">
+                    <h2>Evaluation des cours</h2>
+                    <label>Surface réelle</label>
+                    <input type="number" [(ngModel)]="surfaceReelleCours" name="surfaceReelleCours" required>
+                    <label>Coef entretien/vétusté</label>
+                    <select [(ngModel)]="coefVetCours" name="coefVetCours" required>
+                        <option>0.3</option>
+                        <option>0.4</option>
+                        <option>0.5</option>
+                        <option>0.6</option>
+                        <option>0.7</option>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                    </select>
+                    <label>Catégorie</label>
+                    <select [(ngModel)]="categorieCours" name="categorieCours" required>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+
+                    <button type="button" class="evaluer" (click)="evaluerCours()">Evaluer</button>
+                    <p>
+                        <strong>Surface corrigée: </strong> <span>{{surfaceCorrigeeCours}}</span>
+                        <strong>Prix du m2: </strong> <span>{{prixM2Cours}}</span>
+                        <strong>Valeur des cours: </strong> <span>{{valeurCours}}</span>
+
+                    </p>
+
+
+                </div>
+            </form>
+            <form>
+                <!--Section Clôture-->
+                <div id="calcul">
+                    <h2>Evaluation des clôtures</h2>
+                    <label>Surface réelle</label>
+                    <input type="number" [(ngModel)]="surfaceReelleCloture" name="surfaceReelleCloture" required>
+                    <label>Coef entretien/vétusté</label>
+                    <select [(ngModel)]="coefVetCloture" name="coefVetCloture" required>
+                        <option>0.3</option>
+                        <option>0.4</option>
+                        <option>0.5</option>
+                        <option>0.6</option>
+                        <option>0.7</option>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                    </select>
+                    <label>Catégorie</label>
+                    <select [(ngModel)]="categorieCloture" name="categorieCloture" required>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                    <button type="button" class="evaluer" (click)="evaluerCloture()">Evaluer</button>
+                    <p>
+                        <strong>Surface corrigée: </strong> <span>{{surfaceCorrigeeCloture}}</span>
+                        <strong>Prix du m2: </strong> <span>{{prixM2Cloture}}</span>
+                        <strong>Valeur des clôtures: </strong> <span>{{valeurCloture}}</span>
+                    </p>
+
+
+                </div>
+            </form>
+            <form>
+                <!--Section Amenagement particulier-->
+                <div id="calcul">
+                    <h2>Evaluation des aménagements particuliers</h2>
+                    <label>Coût estimatif</label>
+                    <input type="number" [(ngModel)]="coutEstimatif" name="coutEstimatif" required>
+                    <label>Surface réelle</label>
+                    <input type="number" [(ngModel)]="surfaceReelleAmenagement" name="surfaceReelleAmenagement">
+                    <label>Coef entretien/vétusté</label>
+                    <select [(ngModel)]="coefVetAmenagement" name="coefVetAmenagement" required>
+                        <option>0.3</option>
+                        <option>0.4</option>
+                        <option>0.5</option>
+                        <option>0.6</option>
+                        <option>0.7</option>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                    </select>
+                    
+                    <label>Date de réalisation</label>
+                    <input type="date" [(ngModel)]="dateRealisation" name="dateRealisation">
+                    <label>Date de réévaluation</label>
+                    <input type="date" [(ngModel)]="dateReevaluation" name="dateReevaluation">
+
+                    <button type="button" class="evaluer" (click)="evaluerAmenagementParticulier()">Evaluer</button>
+
+                    <p>
+                        <strong>Surface corrigée: </strong> <span>{{surfaceCorrigeeAmenagement}}</span>
+                        <strong>Valeur des aménagements particuliers: </strong>
+                        <span>{{valeurAmenagementParticulier}}</span>
+                    </p>
+
+                </div>
+            </form>
+            <form>
+                <!--Section Amenagement particulier-->
+                <div id="calcul">
+                    <h2>Evaluation des dépendances</h2>
+                    <label>Surface réelle</label>
+                    <input type="number" [(ngModel)]="surfaceReelleDependance" name="surfaceReelleDependance" required>
+                    <label>Coef entretien/vétusté</label>
+                    <select [(ngModel)]="coefVetDependance" name="coefVetDependance">
+                        <option>0.3</option>
+                        <option>0.4</option>
+                        <option>0.5</option>
+                        <option>0.6</option>
+                        <option>0.7</option>
+                        <option>0.8</option>
+                        <option>0.9</option>
+                        <option>1</option>
+                    </select>
+                    <label>Catégorie</label>
+                    <select [(ngModel)]="categorieDependance" name="categorieDependance">
+                        <option *ngFor="let catt of categories" [value]="catt">{{catt}}</option>
+                    </select>
+                    <button type="button" class="evaluer" (click)="evaluerDependance()">Evaluer</button>
+
+                    <p>
+                        <strong>Surface corrigée: </strong> <span>{{surfaceCorrigeeDependance}}</span>
+                        <strong>Prix du m2: </strong> <span>{{prixM2Local}}</span>
+                        <strong>Valeur des dépendances: </strong><span>{{valeurDependance}}</span>
+                    </p>
+
+                </div>
+            </form>
+            <!--Section Pdf à générer-->
+            <div #calcul id="calcul">
+                <figure>
+                    <img src="assets/logo_ministere_finance.png" alt="Logo Ministère des Finances"/>
+                    <figcaption>DIRECTION DU CADASTRE</figcaption>
+                </figure>
+                <p class="pdf">Rapport d'évaluation cadastrale</p>
+                    <content>
+                        <section class="title">
+                            
+                            <ul>
+                                <li>
+                                    <span>Enquêteur : </span>
+                                    <span class="ng-binding">{{enqueteur}}</span>
+                                </li>
+                                <li>
+                                    <span>Date enquête : </span>
+                                    <span class="ng-binding">{{dateEnquete}}</span>
+                                </li>
+                                
+                            </ul>
+                        </section>
+    
+                        <section class="receiver">
+                            <h3>Références cadastrales et situation de la propriété</h3>
+                            <table>
+                                <tbody>
+                                    
+                                    <tr>
+                                        <td>Numéro section : </td>
+                                        <td class="ng-binding">{{section}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NICAD : </td>
+                                        <td class="ng-binding">{{nicad}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Numéro parcelle : </td>
+                                        <td class="ng-binding">{{numParcelle}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Numéro TF : </td>
+                                        <td class="ng-binding">{{numTF}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rue : </td>
+                                        <td class="ng-binding">{{rue}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de construction : </td>
+                                        <td class="ng-binding">{{typeConstruction}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de toiture : </td>
+                                        <td class="ng-binding">{{typeToiture}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de sol : </td>
+                                        <td class="ng-binding">{{typeSol}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de menuiserie : </td>
+                                        <td class="ng-binding">{{typeMenuiserie}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de destination : </td>
+                                        <td class="ng-binding">{{destination}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Année de construction : </td>
+                                        <td class="ng-binding">{{anneeConstruction}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="receiver">
+                            <h3>Propriétaire</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Prénom : </td>
+                                        <td class="ng-binding">{{prenom}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nom : </td>
+                                        <td class="ng-binding">{{nom}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Profession /Activité : </td>
+                                        <td class="ng-binding">{{profession}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CNI : </td>
+                                        <td class="ng-binding">{{cni}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NINEA : </td>
+                                        <td class="ng-binding">{{ninea}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Loyer annuel : </td>
+                                        <td class="ng-binding">{{loyerAnnuel}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type de référence : </td>
+                                        <td class="ng-binding">{{typeReference}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Statut : </td>
+                                        <td class="ng-binding">{{statut}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="receiver">
+                            <h3>Evaluation du terrain</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Région : </td>
+                                        <td class="ng-binding">{{region}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Département : </td>
+                                        <td class="ng-binding">{{departement}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commune : </td>
+                                        <td class="ng-binding">{{commune}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Secteur : </td>
+                                        <td class="ng-binding">{{secteur}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zone : </td>
+                                        <td class="ng-binding">{{zone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surface bâtie : </td>
+                                        <td class="ng-binding">{{surfaceBatie}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surface non bâtie : </td>
+                                        <td class="ng-binding">{{surfaceNonBatie}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur sol total : </td>
+                                        <td class="ng-binding">{{valeurSolTotal}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="receiver">
+                            <h3>Evaluation du local</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Niveau : </td>
+                                        <td class="ng-binding">{{nbNiveau}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Catégorie : </td>
+                                        <td class="ng-binding">{{categorie}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type immeuble : </td>
+                                        <td class="ng-binding">{{typeImmeuble}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur du local : </td>
+                                        <td class="ng-binding">{{valeurLocal}}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="receiver">
+                            <h3>Evaluation des cours, clôtures, dépendances et aménagements particuliers</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Surface réelle des cours : </td>
+                                        <td class="ng-binding">{{surfaceReelleCours}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur des cours : </td>
+                                        <td class="ng-binding">{{valeurCours}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Surface réelle des clôtures : </td>
+                                        <td class="ng-binding">{{surfaceReelleCloture}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur des clôtures : </td>
+                                        <td class="ng-binding">{{valeurCloture}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur des dépendances : </td>
+                                        <td class="ng-binding">{{valeurDependance}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeurs des aménagements particuliers : </td>
+                                        <td class="ng-binding">{{valeurAmenagementParticulier}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        <section class="receiver">
+                            <h3>Evaluation de l'immeuble</h3>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Valeur totale de l'immeuble : </td>
+                                        <td class="ng-binding">{{valeurImmeuble}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Taux appliqué : </td>
+                                        <td class="ng-binding">{{taux}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valeur locative : </td>
+                                        <td class="ng-binding">{{valeurLocative}}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </section>
+                    </content>
+        
+                    
+
+            </div>
+            <button type="button" class="exporter" (click)="exportToPDF()">Exporter</button>
+        </div>
+
+    </section>
+</div>
