@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { LocalService } from '../../service/local.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { UtilisateurService } from '../../service/utilisateur.service';
 
+
 @Component({
   selector: 'app-locaux',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './locaux.component.html',
   styleUrl: './locaux.component.scss'
 })
@@ -67,12 +69,20 @@ export class LocauxComponent {
       }
     }
 
+    // Importer Router depuis le constructeur
     const cleanUpAndRedirect = () => {
+      // Effacer toutes les données d'authentification
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       localStorage.removeItem('email');
       localStorage.removeItem('user');
-      location.replace('/login');
+      
+      // Utiliser le Router d'Angular au lieu de location.replace
+      // Cela garantit que le système de routage d'Angular est utilisé correctement
+      window.location.href = '/login';
+      
+      // Empêcher la navigation arrière après déconnexion
+      window.history.pushState(null, '', '/login');
     };
 
     if (email) {

@@ -75,10 +75,7 @@
             <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
             
           </div>
-          <div class="search-box">
-            <input type="text" placeholder="Rechercher...">
-            <i class='bx bx-search'></i>
-          </div>
+          
         
         </nav>
         
@@ -90,14 +87,14 @@
                     <div class="panel panel-success">
             
                         <div class="panel-heading">
-                            <h3 class="panel-title">Locaux</h3>
+                            <h3 class="panel-title">Biens</h3>
                         </div>
                         
                         <table class="table table-hover" id="task-table">
                             <thead>
                                 <tr>
                                     <th>&nbsp;</th>
-                                    <th>Matricule</th>
+                                    <th>Identifiant</th>
                                     <th>Région</th>
                                     <th>Département</th>
                                     <th>Commune</th>
@@ -116,8 +113,8 @@
                                     <td>{{ local.parcelle?.numSect }}</td>
                                     <td>{{ local.parcelle?.nicad }}</td>
                                     <td>
-                                        <a href="" class="btn-consulter">Consulter</a>
-                                        <a href="" class="btn-editer">Éditer</a>
+                                        <a href="/locaux/consult-local/{{ local.identifiant }}" class="btn-consulter">Consulter</a>
+                                        <a href="/locaux/edit-local/{{ local.identifiant }}" class="btn-editer">Éditer</a>
                                         <a href="" class="btn-evaluer">Évaluer</a>
                                     </td>
                                 </tr>
@@ -128,7 +125,7 @@
             </div>
         </div>
         <div class="btn-container">
-            <a href="#" class="btn-ajouter">Ajouter</a>
+            <a href="/bien-form" class="btn-ajouter">Ajouter</a>
         </div>
         
       </section>

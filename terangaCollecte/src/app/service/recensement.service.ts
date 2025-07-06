@@ -25,4 +25,7 @@ export class RecensementService {
   createRecensementUser(recensementUser: any): Observable<any> {
     return this.http.post(this.configService.getApiUrl('recensementUtilisateurs/add'), recensementUser);
   }
+  updateRecensement(numRecensement: string, recensement: any): Observable<any> {
+    return this.http.put(this.configService.getApiUrl(`recensements/update/${numRecensement}`), recensement);
+  }
 }

@@ -24,5 +24,17 @@ export class LocalService {
     getAllBiensByNicad(nicad: string): Observable<any[]> {
       return this.http.get<any[]>(this.configService.getApiUrl('biens/all/' + nicad));
     }
+
+    saveBien(bien: any): Observable<any> {
+      return this.http.post(this.configService.getApiUrl('biens/web/add'), bien);
+    }
+
+    getBienById(idBien: string): Observable<any> {
+      return this.http.get(this.configService.getApiUrl('biens/research/' + idBien));
+    }
+
+    updateBien(bien: any): Observable<any> {
+      return this.http.put(this.configService.getApiUrl('biens/web/update/'), bien);
+    }
   
 }

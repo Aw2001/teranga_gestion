@@ -1,0 +1,864 @@
+<div class="parent">
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="logo-details">
+            <img src="logoT.png">
+            <div class="logo_name">TerangaGestion</div>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/dashboard">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/recensements">
+                    <i  class='bx bx-box'></i>
+                    <span class="links_name">Recensements</span>
+                </a>
+            </li>
+            <li>
+                <a href="/evaluation">
+                    <i  class='bx bx-calculator'></i>
+                    <span class="links_name">Evaluation</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locaux" class="active">
+                    <i  class='bx bx-home'></i>
+                    <span class="links_name">Biens</span>
+                </a>
+            </li>
+            <li>
+                <a href="/proprietaires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Propriétaires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locataires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Locataires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/utilisateurs">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="/profil">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Profil</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/parametres">
+                    <i  class='bx bx-cog'></i>
+                    <span class="links_name">Paramètres</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"(click)="logout(); $event.preventDefault()">
+                    <i  class='bx bx-log-out'></i>
+                    <span class="links_name">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+          <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
+            
+          </div>
+           <!-- <div class="search-box">
+            <input type="text" placeholder="Rechercher...">
+            <i class='bx bx-search'></i>
+          </div>-->
+        
+        </nav>
+        
+        <div class="container">
+
+            <!-- Formulaire informations générales -->
+            <form class="bien-formulaire row g-3">
+                <h2>Informations générales</h2>
+                <div class="col-md-5">
+                    <label class="form-label">Propriétaire</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.proprietaire?.prenom + ' ' + local.proprietaire?.nom + ' (' + local.proprietaire?.numIdentifiant + ')'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Région</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parcelle.region"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Département</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parcelle.nomDepart"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Commune</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parcelle.nomCommun"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Section</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parcelle.numSect"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Parcelle</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parcelle.nicad"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Nom de la rue</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nomRue"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Code rue</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.codeDeRueAdm"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Quartier</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.quartier"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Village</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.village"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Type de parcelle</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeParcelle"
+                    >
+                </div>
+
+                <h2>Caractéristiques du bien</h2>
+                <div class="col-md-5">
+                    <label for="nomVoirie" class="form-label">Nom de la voirie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nomVoirie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeVoirie" class="form-label">Type de voirie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeVoirie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nomAutreVoirie" class="form-label">Nom autre voirie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nomAutreVoirie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeCloture" class="form-label">Type de clôture</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeCloture"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="etatCloture" class="form-label">État de la clôture</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.etatCloture"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="toiture" class="form-label">Toiture</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.toiture"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeRevetement" class="form-label">Type de revêtement</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeRevetement"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeCarrelage" class="form-label">Type de carrelage</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeCarrelage"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeLot" class="form-label">Type de lot</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeLot"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="localisationLot" class="form-label">Localisation du lot</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.localisationLot"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="situationLot" class="form-label">Situation du lot</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.situationLot"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="numLot" class="form-label">Numéro du lot</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.numLot"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="niveauLot" class="form-label">Niveau du lot</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.niveauLot"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="numPorteAdm" class="form-label">Numéro de porte</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.numPorteAdm"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="adresse" class="form-label">Adresse</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.adresse"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="superficie" class="form-label">Superficie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.superficie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeOccupation" class="form-label">Type d'occupation</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeOccupation"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="dateDelivranceTypeOccupation" class="form-label">Date de délivrance du type d'occupation</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.dateDelivranceTypeOccupation"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="usagee" class="form-label">Usage</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.usagee"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeConstruction" class="form-label">Type de construction</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeConstruction"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="situationRoute" class="form-label">Situation par rapport à la route</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.situationRoute"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="typeRoute" class="form-label">Type de route</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.typeRoute"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="garage" class="form-label">Garage</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.garage"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="qualitePorteFenetre" class="form-label">Qualité porte fenetre</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.qualitePorteFenetre"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="menuiserie" class="form-label">Menuiserie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.menuiserie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="conceptionPieces" class="form-label">Conception des pièces</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.conceptionPieces"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="appareilsSanitaires" class="form-label">Appareils sanitaires</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.appareilsSanitaires"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="parkingInterieur" class="form-label">Parking intérieur</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.parkingInterieur"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbAscenseurs" class="form-label">Nombre d'ascenseurs</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbAscenseurs"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbSalleBain" class="form-label">Nombre de salles de bain</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbSalleBain"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbSalleEau" class="form-label">Nombre de salles d'eau</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbSalleEau"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbPieceReception" class="form-label">Nombre de pièces de réception</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbPieceReception"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbTotalPiece" class="form-label">Nombre total de pièces</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbTotalPiece"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="nbEtage" class="form-label">Nombre étages</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.nbEtage"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="confort" class="form-label">Confort</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.confort"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="numCompteurSde" class="form-label">Numéro du compteur SDE</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.numCompteurSde"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="numCompteurSenelec" class="form-label">Numéro du compteur Senelec</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.numCompteurSenelec"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="numTitreFoncier" class="form-label">Numéro titre foncier</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.numTitreFoncier"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="dateAcquisition" class="form-label">Date d'acquisition</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.dateAcquisition"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeAnnuelle" class="form-label">Valeur locative annuelle</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.valeurLocativeAnnuelle"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeAnnuelleSaisie" class="form-label">Valeur locative annuelle saisie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.valeurLocativeAnnuelleSaisie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeMensuelle" class="form-label">Valeur locative mensuelle</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.valeurLocativeMensuelle"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeMensuelleSaisie" class="form-label">Valeur locative mensuelle saisie</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.valeurLocativeMensuelleSaisie"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label for="commentaire" class="form-label">Commentaire</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.commentaire"
+                    >
+                </div>
+               
+                <div class="col-md-5">
+                    <label class="form-label">Escaliers de service présents ?</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.escalier === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Vide ordure présente ?</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.videOrdure === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Monte charge présente ?</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.monteCharge === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre présente ?</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.autre === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Monte charge présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.monteCharge === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Groupe électrogène présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.groupeElectrogene === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Dépendances isolées présentes ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.dependanceIsolee === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Garage souterrain présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.garageSouterrain === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Système de climatisation présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.systemeClimatisation === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Système domotique présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.systemeDomotique === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Balcon présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.balcon === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Terrasse présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.terrasse === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+               
+                <div class="col-md-5">
+                    <label class="form-label">Système de surveillance présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.systemeSurveillance === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Aménagement paysager présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.amenagementPaysager === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Jardin présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.jardin === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Piscine présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.piscine === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Cours de tennis présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.coursDeTennis === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Cours gazonnée présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.coursGazonnee === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Terrain golf présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.terrainGolf === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre présente ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.autre === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Situé en angle ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.angle === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Éclairage public disponible ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.eclairagePublic === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Mur en ciment présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.murEnCiment === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Attributs architecturaux présents ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.attributsArchitecturaux === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Trottoir présent ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.trottoir === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Propriété en location ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.proprieteEnLocation === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre type d'occupation ?</label><br>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        [value]="local.autreTypeOccupation === 'oui' ? 'Oui' : 'Non'"
+                    >
+                </div>
+                <div class="row mb-4">
+                    <div class="col-12">
+                      <h2>Images du bien</h2>
+                      <div *ngIf="images && images.length > 0; else noImages">
+                        <div class="d-flex flex-wrap gap-3">
+                          <div *ngFor="let img of images">
+                            <img [src]="img" alt="Image du bien" class="image-bien">
+                          </div>
+                        </div>
+                      </div>
+                      <ng-template #noImages>
+                        <div class="text-muted">Aucune image disponible.</div>
+                      </ng-template>
+                    </div>
+                  </div>
+                
+            </form>
+
+             
+        </div>
+      </section>
+</div>
+    
+    
+    
+
+
+
+
+
+
+
+
+

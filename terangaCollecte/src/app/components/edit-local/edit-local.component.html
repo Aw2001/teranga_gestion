@@ -1,0 +1,686 @@
+<div class="parent">
+    <div class="sidebar" [class.active]="isSidebarActive">
+        <div class="logo-details">
+            <img src="logoT.png">
+            <div class="logo_name">TerangaGestion</div>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/dashboard">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/recensements">
+                    <i  class='bx bx-box'></i>
+                    <span class="links_name">Recensements</span>
+                </a>
+            </li>
+            <li>
+                <a href="/evaluation">
+                    <i  class='bx bx-calculator'></i>
+                    <span class="links_name">Evaluation</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locaux" class="active">
+                    <i  class='bx bx-home'></i>
+                    <span class="links_name">Biens</span>
+                </a>
+            </li>
+            <li>
+                <a href="/proprietaires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Propriétaires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/locataires">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Locataires</span>
+                </a>
+            </li>
+            <li>
+                <a href="/utilisateurs">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="/profil">
+                    <i  class='bx bx-user'></i>
+                    <span class="links_name">Profil</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/parametres">
+                    <i  class='bx bx-cog'></i>
+                    <span class="links_name">Paramètres</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"(click)="logout(); $event.preventDefault()">
+                    <i  class='bx bx-log-out'></i>
+                    <span class="links_name">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+          <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
+            
+          </div>
+           <!-- <div class="search-box">
+            <input type="text" placeholder="Rechercher...">
+            <i class='bx bx-search'></i>
+          </div>-->
+        
+        </nav>
+        
+        <div class="container">
+            <!-- Formulaire informations générales -->
+            <form class="bien-formulaire row g-3" [formGroup]="bienForm" (ngSubmit)="onSubmit()">
+                <h2>Informations générales</h2>
+                <div class="col-md-5">
+                    <label for="idProprietaire" class="form-label">Propriétaire</label>
+                    <select id="idProprietaire" formControlName="idProprietaire" class="form-select">
+                        <option value="">{{ local?.proprietaire?.prenom + ' ' + local?.proprietaire?.nom + ' (' + local?.proprietaire?.numIdentifiant + ')' }}</option>
+                        <option *ngFor="let proprietaire of proprietaires" [value]="proprietaire.numIdentifiant">{{ proprietaire.prenom }} {{ proprietaire.nom }} ({{ proprietaire.numIdentifiant }})</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Région</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="region"
+                        readonly
+                        [value]="local?.parcelle?.region"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Département</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="departement"
+                        readonly
+                        [value]="local?.parcelle?.nomDepart"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Commune</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="commune"
+                        readonly
+                        [value]="local?.parcelle?.nomCommun"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Section</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="section"
+                        readonly
+                        [value]="local?.parcelle?.numSect"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Parcelle</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="idParcelle"
+                        readonly
+                        [value]="local?.parcelle?.nicad"
+                    >
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Nom de la rue</label>
+                    <input type="text" id="nomRue" formControlName="nomRue" class="form-control" [value]="local?.nomRue">
+                </div>
+                <div class="col-md-5">
+                    <label for="codeDeRueAdm" class="form-label">Code rue</label>
+                    <input type="text" id="codeDeRueAdm" formControlName="codeDeRueAdm" class="form-control" [value]="local?.codeDeRueAdm">
+                </div>
+                <div class="col-md-5">
+                    <label for="quartier" class="form-label">Quartier</label>
+                    <input type="text" id="quartier" formControlName="quartier" class="form-control" [value]="local?.quartier">
+                </div>
+                <div class="col-md-5">
+                    <label for="village" class="form-label">Village</label>
+                    <input type="text" id="village" formControlName="village" class="form-control" [value]="local?.village">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeParcelle" class="form-label">Type de parcelle</label>
+                    <select id="typeParcelle" formControlName="typeParcelle" class="form-select">
+                        <option value="">{{ local?.typeParcelle }}</option>
+                        <option *ngFor="let type of typeParcelleOptions" [value]="type">{{ type }}</option>
+                    </select>
+                </div>
+                
+
+                <h2>Caractéristiques du bien</h2>
+                <div class="col-md-5">
+                    <label for="nomVoirie" class="form-label">Nom de la voirie</label>
+                    <input type="text" id="nomVoirie" formControlName="nomVoirie" class="form-control" [value]="local?.nomVoirie">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeVoirie" class="form-label">Type de voirie</label>
+                    <select id="typeVoirie" formControlName="typeVoirie" class="form-select">
+                        <option value="">{{ local?.typeVoirie }}</option>
+                        <option *ngFor="let type of typeVoirieOptions" [value]="type">{{ type }}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="nomAutreVoirie" class="form-label">Nom autre voirie</label>
+                    <input type="text" id="nomAutreVoirie" formControlName="nomAutreVoirie" class="form-control" [value]="local?.nomAutreVoirie">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeCloture" class="form-label">Type de clôture</label>
+                    <select id="typeCloture" formControlName="typeCloture" class="form-select">
+                        <option value="">{{ local?.typeCloture }}</option>
+                        <option *ngFor="let type of typeClotureOptions" [value]="type">{{ type }}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="etatCloture" class="form-label">État de la clôture</label>
+                    <input type="text" id="etatCloture" formControlName="etatCloture" class="form-control" [value]="local?.etatCloture">
+                </div>
+                <div class="col-md-5">
+                    <label for="toiture" class="form-label">Toiture</label>
+                    <input type="text" id="toiture" formControlName="toiture" class="form-control" [value]="local?.toiture">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeRevetement" class="form-label">Type de revêtement</label>
+                    <input type="text" id="typeRevetement" formControlName="typeRevetement" class="form-control" [value]="local?.typeRevetement">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeCarrelage" class="form-label">Type de carrelage</label>
+                    <select id="typeCarrelage" formControlName="typeCarrelage" class="form-select">
+                        <option value="">{{ local?.typeCarrelage }}</option>
+                        <option *ngFor="let type of typeCarrelageOptions" [value]="type">{{ type }}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="typeLot" class="form-label">Type de lot</label>
+                    <input type="text" id="typeLot" formControlName="typeLot" class="form-control" [value]="local?.typeLot">
+                </div>
+                <div class="col-md-5">
+                    <label for="localisationLot" class="form-label">Localisation du lot</label>
+                    <input type="text" id="localisationLot" formControlName="localisationLot" class="form-control" [value]="local?.localisationLot">
+                </div>
+                <div class="col-md-5">  
+                    <label for="situationLot" class="form-label">Situation du lot</label>
+                    <input type="text" id="situationLot" formControlName="situationLot" class="form-control" [value]="local?.situationLot">
+                </div>
+                <div class="col-md-5">
+                    <label for="numLot" class="form-label">Numéro du lot</label>
+                    <input type="text" id="numLot" formControlName="numLot" class="form-control" [value]="local?.numLot">
+                </div>
+                <div class="col-md-5">
+                    <label for="niveauLot" class="form-label">Niveau du lot</label>
+                    <input type="number" id="niveauLot" formControlName="niveauLot" class="form-control" [value]="local?.niveauLot">
+                </div>
+                <div class="col-md-5">
+                    <label for="numPorteAdm" class="form-label">Numéro de porte</label>
+                    <input type="number" id="numPorteAdm" formControlName="numPorteAdm" class="form-control" [value]="local?.numPorteAdm">
+                </div>
+                <div class="col-md-5">
+                    <label for="adresse" class="form-label">Adresse</label>
+                    <input type="text" id="adresse" formControlName="adresse" class="form-control" [value]="local?.adresse">
+                </div>
+                <div class="col-md-5">
+                    <label for="superficie" class="form-label">Superficie</label>
+                    <input type="number" id="superficie" formControlName="superficie" class="form-control" [value]="local?.superficie">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeOccupation" class="form-label">Type d'occupation</label>
+                    <input type="text" id="typeOccupation" formControlName="typeOccupation" class="form-control" [value]="local?.typeOccupation">
+                </div>
+                <div class="col-md-5">
+                    <label for="dateDelivranceTypeOccupation" class="form-label">Date de délivrance du type d'occupation</label>
+                    <input type="date" id="dateDelivranceTypeOccupation" formControlName="dateDelivranceTypeOccupation" class="form-control" [value]="local?.dateDelivranceTypeOccupation">
+                </div>
+                <div class="col-md-5">
+                    <label for="usagee" class="form-label">Usage</label>
+                    <select id="usagee" formControlName="usagee" class="form-select">
+                        <option value="">{{ local?.usagee }}</option>
+                        <option *ngFor="let usage of usageOptions" [value]="usage">{{ usage }}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="typeConstruction" class="form-label">Type de construction</label>   
+                    <input type="text" id="typeConstruction" formControlName="typeConstruction" class="form-control" [value]="local?.typeConstruction">
+                </div>
+                <div class="col-md-5">
+                    <label for="situationRoute" class="form-label">Situation par rapport à la route</label>
+                    <input type="text" id="situationRoute" formControlName="situationRoute" class="form-control" [value]="local?.situationRoute">
+                </div>
+                <div class="col-md-5">
+                    <label for="typeRoute" class="form-label">Type de route</label>
+                    <input type="text" id="typeRoute" formControlName="typeRoute" class="form-control" [value]="local?.typeRoute">
+                </div>
+                <div class="col-md-5">
+                    <label for="garage" class="form-label">Garage</label>
+                    <input type="text" id="garage" formControlName="garage" class="form-control" [value]="local?.garage">
+                </div>
+                <div class="col-md-5">
+                    <label for="qualitePorteFenetre" class="form-label">Qualité porte fenetre</label>
+                    <input type="text" id="qualitePorteFenetre" formControlName="qualitePorteFenetre" class="form-control" [value]="local?.qualitePorteFenetre">
+                </div>
+                <div class="col-md-5">
+                    <label for="menuiserie" class="form-label">Menuiserie</label>
+                    <input type="text" id="menuiserie" formControlName="menuiserie" class="form-control" [value]="local?.menuiserie">
+                </div>
+                <div class="col-md-5">
+                    <label for="conceptionPieces" class="form-label">Conception des pièces</label>
+                    <input type="text" id="conceptionPieces" formControlName="conceptionPieces" class="form-control" [value]="local?.conceptionPieces">
+                </div>
+                <div class="col-md-5">
+                    <label for="appareilsSanitaires" class="form-label">Appareils sanitaires</label>
+                    <input type="text" id="appareilsSanitaires" formControlName="appareilsSanitaires" class="form-control" [value]="local?.appareilsSanitaires">
+                </div>
+                <div class="col-md-5">
+                    <label for="parkingInterieur" class="form-label">Parking intérieur</label>
+                    <input type="text" id="parkingInterieur" formControlName="parkingInterieur" class="form-control" [value]="local?.parkingInterieur">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbAscenseurs" class="form-label">Nombre d'ascenseurs</label>
+                    <input type="number" id="nbAscenseurs" formControlName="nbAscenseurs" class="form-control" [value]="local?.nbAscenseurs">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbSalleBain" class="form-label">Nombre de salles de bain</label>
+                    <input type="number" id="nbSalleBain" formControlName="nbSalleBain" class="form-control" [value]="local?.nbSalleBain">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbSalleEau" class="form-label">Nombre de salles d'eau</label>
+                    <input type="number" id="nbSalleEau" formControlName="nbSalleEau" class="form-control" [value]="local?.nbSalleEau">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbPieceReception" class="form-label">Nombre de pièces de réception</label>
+                    <input type="number" id="nbPieceReception" formControlName="nbPieceReception" class="form-control" [value]="local?.nbPieceReception">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbTotalPiece" class="form-label">Nombre total de pièces</label>
+                    <input type="number" id="nbTotalPiece" formControlName="nbTotalPiece" class="form-control" [value]="local?.nbTotalPiece">
+                </div>
+                <div class="col-md-5">
+                    <label for="nbEtage" class="form-label">Nombre étages</label>
+                    <input type="number" id="nbEtage" formControlName="nbEtage" class="form-control" [value]="local?.nbEtage">
+                </div>
+                <div class="col-md-5">
+                    <label for="confort" class="form-label">Confort</label>
+                    <select id="confort" formControlName="confort" class="form-control">
+                        <option value="">{{ local?.confort }}</option>
+                        <option *ngFor="let option of confortOptions" [value]="option">{{ option }}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="numCompteurSde" class="form-label">Numéro du compteur SDE</label>
+                    <input type="text" id="numCompteurSde" formControlName="numCompteurSde" class="form-control" [value]="local?.numCompteurSde">
+                </div>
+                <div class="col-md-5">
+                    <label for="numCompteurSenelec" class="form-label">Numéro du compteur Senelec</label>
+                    <input type="text" id="numCompteurSenelec" formControlName="numCompteurSenelec" class="form-control" [value]="local?.numCompteurSenelec">
+                </div>
+                <div class="col-md-5">
+                    <label for="numTitreFoncier" class="form-label">Numéro titre foncier</label>
+                    <input type="text" id="numTitreFoncier" formControlName="numTitreFoncier" class="form-control" [value]="local?.numTitreFoncier">
+                </div>
+                <div class="col-md-5">
+                    <label for="dateAcquisition" class="form-label">Date d'acquisition</label>
+                    <input type="date" id="dateAcquisition" formControlName="dateAcquisition" class="form-control" [value]="local?.dateAcquisition">
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeAnnuelle" class="form-label">Valeur locative annuelle</label>
+                    <input type="number" id="valeurLocativeAnnuelle" formControlName="valeurLocativeAnnuelle" class="form-control" [value]="local?.valeurLocativeAnnuelle">
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeAnnuelleSaisie" class="form-label">Valeur locative annuelle saisie</label>
+                    <input type="number" id="valeurLocativeAnnuelleSaisie" formControlName="valeurLocativeAnnuelleSaisie" class="form-control" [value]="local?.valeurLocativeAnnuelleSaisie">
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeMensuelle" class="form-label">Valeur locative mensuelle</label>
+                    <input type="number" id="valeurLocativeMensuelle" formControlName="valeurLocativeMensuelle" class="form-control" [value]="local?.valeurLocativeMensuelle">
+                </div>
+                <div class="col-md-5">
+                    <label for="valeurLocativeMensuelleSaisie" class="form-label">Valeur locative mensuelle saisie</label>
+                    <input type="number" id="valeurLocativeMensuelleSaisie" formControlName="valeurLocativeMensuelleSaisie" class="form-control" [value]="local?.valeurLocativeMensuelleSaisie">
+                </div>
+                <div class="col-md-5">
+                    <label for="commentaire" class="form-label">Commentaire</label><br>
+                    
+                    <textarea id="commentaire" formControlName="commentaire" class="form-control" [value]="local?.commentaire"></textarea>
+                </div>
+               
+                <div class="col-md-5">
+                    <label class="form-label">Escaliers de service présents ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="escalier" [value]="'oui'" id="escalierOui">
+                      <label class="form-check-label" for="escalierOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="escalier" [value]="'non'" id="escalierNon">
+                      <label class="form-check-label" for="escalierNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Vide ordure présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="videOrdure" [value]="'oui'" id="videOrdureOui">
+                      <label class="form-check-label" for="videOrdureOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="videOrdure" [value]="'non'" id="videOrdureNon">
+                      <label class="form-check-label" for="videOrdureNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Monte charge présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="monteCharge" [value]="'oui'" id="monteChargeOui">
+                      <label class="form-check-label" for="monteChargeOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="monteCharge" [value]="'non'" id="monteChargeNon">
+                      <label class="form-check-label" for="monteChargeNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="autre" [value]="'oui'" id="autreOui">
+                      <label class="form-check-label" for="autreOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="autre" [value]="'non'" id="autreNon">
+                      <label class="form-check-label" for="autreNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Groupe électrogène présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="groupeElectrogene" [value]="'oui'" id="groupeElectrogeneOui">
+                      <label class="form-check-label" for="groupeElectrogeneOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="groupeElectrogene" [value]="'non'" id="groupeElectrogeneNon">
+                      <label class="form-check-label" for="groupeElectrogeneNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Dépendances isolées présentes ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="dependanceIsolee" [value]="'oui'" id="dependanceIsoleeOui">
+                      <label class="form-check-label" for="dependanceIsoleeOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="dependanceIsolee" [value]="'non'" id="dependanceIsoleeNon">
+                      <label class="form-check-label" for="dependanceIsoleeNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Garage souterrain présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="garageSouterrain" [value]="'oui'" id="garageSouterrainOui">
+                      <label class="form-check-label" for="garageSouterrainOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="garageSouterrain" [value]="'non'" id="garageSouterrainNon">
+                      <label class="form-check-label" for="garageSouterrainNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Système de climatisation présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeClimatisation" [value]="'oui'" id="systemeClimatisationOui">
+                      <label class="form-check-label" for="systemeClimatisationOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeClimatisation" [value]="'non'" id="systemeClimatisationNon">
+                      <label class="form-check-label" for="systemeClimatisationNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Système domotique présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeDomotique" [value]="'oui'" id="systemeDomotiqueOui">
+                      <label class="form-check-label" for="systemeDomotiqueOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeDomotique" [value]="'non'" id="systemeDomotiqueNon">
+                      <label class="form-check-label" for="systemeDomotiqueNon">Non</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <label class="form-label">Balcon présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="balcon" [value]="'oui'" id="balconOui">
+                      <label class="form-check-label" for="balconOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="balcon" [value]="'non'" id="balconNon">
+                      <label class="form-check-label" for="balconNon">Non</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <label class="form-label">Terrasse présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="terrasse" [value]="'oui'" id="terrasseOui">
+                      <label class="form-check-label" for="terrasseOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="terrasse" [value]="'non'" id="terrasseNon">
+                      <label class="form-check-label" for="terrasseNon">Non</label>
+                    </div>
+                </div>
+              
+               
+                <div class="col-md-5">
+                    <label class="form-label">Système de surveillance présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeSurveillance" [value]="'oui'" id="systemeSurveillanceOui">
+                      <label class="form-check-label" for="systemeSurveillanceOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="systemeSurveillance" [value]="'non'" id="systemeSurveillanceNon">
+                      <label class="form-check-label" for="systemeSurveillanceNon">Non</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <label class="form-label">Aménagement paysager présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="amenagementPaysager" [value]="'oui'" id="amenagementPaysagerOui">
+                      <label class="form-check-label" for="amenagementPaysagerOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="amenagementPaysager" [value]="'non'" id="amenagementPaysagerNon">
+                      <label class="form-check-label" for="amenagementPaysagerNon">Non</label>
+                    </div>
+                </div>
+               
+                <div class="col-md-5">
+                    <label class="form-label">Jardin présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="jardin" [value]="'oui'" id="jardinOui">
+                      <label class="form-check-label" for="jardinOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="jardin" [value]="'non'" id="jardinNon">
+                      <label class="form-check-label" for="jardinNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Piscine présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="piscine" [value]="'oui'" id="piscineOui">
+                      <label class="form-check-label" for="piscineOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="piscine" [value]="'non'" id="piscineNon">
+                      <label class="form-check-label" for="piscineNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Cours de tennis présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="coursDeTennis" [value]="'oui'" id="coursDeTennisOui">
+                        <label class="form-check-label" for="coursDeTennisOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="coursDeTennis" [value]="'non'" id="coursDeTennisNon">
+                        <label class="form-check-label" for="coursDeTennisNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Cours gazonnée présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="coursGazonnee" [value]="'oui'" id="coursGazonneeOui">
+                        <label class="form-check-label" for="coursGazonneeOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="coursGazonnee" [value]="'non'" id="coursGazonneeNon">
+                        <label class="form-check-label" for="coursGazonneeNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Terrain golf présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="terrainGolf" [value]="'oui'" id="terrainGolfOui">
+                        <label class="form-check-label" for="terrainGolfOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="terrainGolf" [value]="'non'" id="terrainGolfNon">
+                        <label class="form-check-label" for="terrainGolfNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre présente ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="autre" [value]="'oui'" id="autreOui">
+                        <label class="form-check-label" for="autreOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="autre" [value]="'non'" id="autreNon">
+                        <label class="form-check-label" for="autreNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Situé en angle ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="angle" [value]="'oui'" id="angleOui">
+                        <label class="form-check-label" for="angleOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="angle" [value]="'non'" id="angleNon">
+                        <label class="form-check-label" for="angleNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Éclairage public disponible ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="eclairagePublic" [value]="'oui'" id="eclairagePublicOui">
+                        <label class="form-check-label" for="eclairagePublicOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="eclairagePublic" [value]="'non'" id="eclairagePublicNon">
+                        <label class="form-check-label" for="eclairagePublicNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Mur en ciment présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="murEnCiment" [value]="'oui'" id="murEnCimentOui">
+                        <label class="form-check-label" for="murEnCimentOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="murEnCiment" [value]="'non'" id="murEnCimentNon">
+                        <label class="form-check-label" for="murEnCimentNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Attributs architecturaux présents ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="attributsArchitecturaux" [value]="'oui'" id="attributsArchitecturauxOui">
+                        <label class="form-check-label" for="attributsArchitecturauxOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="attributsArchitecturaux" [value]="'non'" id="attributsArchitecturauxNon">
+                        <label class="form-check-label" for="attributsArchitecturauxNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Trottoir présent ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="trottoir" [value]="'oui'" id="trottoirOui">
+                        <label class="form-check-label" for="trottoirOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="trottoir" [value]="'non'" id="trottoirNon">
+                        <label class="form-check-label" for="trottoirNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Propriété en location ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="proprieteEnLocation" [value]="'oui'" id="proprieteEnLocationOui">
+                        <label class="form-check-label" for="proprieteEnLocationOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="proprieteEnLocation" [value]="'non'" id="proprieteEnLocationNon">
+                        <label class="form-check-label" for="proprieteEnLocationNon">Non</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Autre type d'occupation ?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="autreTypeOccupation" [value]="'oui'" id="autreTypeOccupationOui">
+                        <label class="form-check-label" for="autreTypeOccupationOui">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="autreTypeOccupation" [value]="'non'" id="autreTypeOccupationNon">
+                        <label class="form-check-label" for="autreTypeOccupationNon">Non</label>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <label for="photos" class="form-label">Images du bien</label>
+                    <div class="custom-file-input-wrapper">
+                        <input type="file" id="photos" class="form-control custom-file-input" (change)="onFileSelected($event)" multiple>
+                        <span class="image-count" *ngIf="selectedFiles.length > 0">{{selectedFiles.length}} image{{selectedFiles.length > 1 ? 's' : ''}} sélectionnée{{images.length > 1 ? 's' : ''}}</span>
+                    </div>
+                    <div class="image-preview-row" *ngIf="selectedFiles.length > 0">
+                        <img *ngFor="let img of selectedFiles" [src]="img.preview" class="image-preview" alt="Image du bien">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="button" class="cancel" (click)="onCancel()">Annuler</button>
+                    <button type="submit" class="submit">Modifier</button>
+                </div>
+            </form>   
+        </div>
+      </section>
+</div>
+    
+    
+    
+
+
+
+
+
+
+
+
+

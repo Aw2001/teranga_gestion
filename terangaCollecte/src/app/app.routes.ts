@@ -10,6 +10,9 @@ import { ProfilComponent } from './components/profil/profil.component';
 import { ProprietairesComponent } from './components/proprietaires/proprietaires.component';
 import { UtilisateursComponent } from './components/utilisateurs/utilisateurs.component';
 import { RecensementsComponent } from './components/recensements/recensements.component';
+import { BienFormComponent } from './components/bien-form/bien-form.component';
+import { ConsultLocalComponent } from './components/consult-local/consult-local.component';
+import { EditLocalComponent } from './components/edit-local/edit-local.component';
 
 export const routes: Routes = [
 
@@ -77,6 +80,21 @@ export const routes: Routes = [
     {
         path: 'recensements',
         component: RecensementsComponent,
+        canActivate: [isLoggedInGuard]
+    },
+    { 
+        path: 'bien-form', 
+        component: BienFormComponent,
+        canActivate: [isLoggedInGuard]
+    },
+    {
+        path: 'locaux/consult-local/:id',
+        component: ConsultLocalComponent,
+        canActivate: [isLoggedInGuard]
+    },
+    {
+        path: 'locaux/edit-local/:id',
+        component: EditLocalComponent,
         canActivate: [isLoggedInGuard]
     }
 ];

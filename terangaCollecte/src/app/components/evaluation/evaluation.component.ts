@@ -31,6 +31,9 @@ export class EvaluationComponent {
   zoneError: string = '';
 
   isSidebarActive: boolean = false;
+  
+  // Date actuelle pour le pied de page du rapport
+  currentDate: Date = new Date();
 
   // Variables pour stocker les entrées
   enqueteur: string = '';
@@ -487,24 +490,156 @@ export class EvaluationComponent {
   @ViewChild('calcul') contentToExport!: ElementRef;
 
   exportToPDF() {
+    // Créer une instance PDF avec le bon format A4
+    const pdf = new jsPDF.jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+      compress: true
+    });
+    
+    // Dimensions de la page A4
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    
+    // Générer la première page (sans la section .new-page)
+    this.generateFirstPage(pdf, pageWidth, pageHeight, () => {
+      // Ajouter une nouvelle page au PDF
+      pdf.addPage();
+      
+      // Générer la deuxième page (avec la section .new-page)
+      this.generateSecondPage(pdf, pageWidth, pageHeight, () => {
+        // Sauvegarder le PDF
+        pdf.save('rapport-evaluation-cadastrale.pdf');
+      });
+    });
+  }
+  
+  // Générer la première page du PDF
+  private generateFirstPage(pdf: any, pageWidth: number, pageHeight: number, callback: Function) {
+    // Créer une copie du rapport pour la première page
     const element = this.contentToExport.nativeElement;
-  
-    // Options pour html2canvas (ajustez si nécessaire)
-    const options = {
-      scale: 3, 
-      useCORS: true, 
-      logging: false, 
-    };
-  
-    html2canvas(element, options).then((canvas) => {
+    const clone = element.cloneNode(true) as HTMLElement;
+    document.body.appendChild(clone);
+    
+    // Supprimer les sections qui doivent être sur la deuxième page
+    const newPageSection = clone.querySelector('.new-page');
+    if (newPageSection && newPageSection.parentNode) {
+      // Supprimer cette section et toutes les sections suivantes
+      let currentNode = newPageSection as HTMLElement;
+      while (currentNode.nextElementSibling) {
+        const nextNode = currentNode.nextElementSibling as HTMLElement;
+        if (nextNode.parentNode) {
+          nextNode.parentNode.removeChild(nextNode);
+        }
+      }
+      // Supprimer la section new-page elle-même
+      newPageSection.parentNode.removeChild(newPageSection);
+    }
+    
+    // Supprimer le footer de la première page
+    const footer = clone.querySelector('footer');
+    if (footer && footer.parentNode) {
+      footer.parentNode.removeChild(footer);
+    }
+    
+    // Appliquer les styles nécessaires pour une capture fidèle
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = '210mm';
+    clone.style.height = 'auto';
+    clone.style.backgroundColor = 'white';
+    clone.style.padding = '30px';
+    clone.style.margin = '0';
+    clone.style.boxShadow = 'none';
+    clone.style.overflow = 'visible';
+    
+    // Générer l'image de la première page
+    html2canvas(clone, {
+      scale: 3,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      imageTimeout: 0
+    }).then(canvas => {
+      // Supprimer le clone après la capture
+      document.body.removeChild(clone);
+      
+      // Ajouter l'image au PDF
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF.jsPDF('p', 'mm', 'a4');
-      const imgWidth = 190; // Largeur max dans le PDF (A4: 210mm)
+      const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      console.log(canvas.height);
-      console.log(canvas.width);
-      pdf.addImage(imgData, 'PNG', 10, 3, imgWidth, imgHeight);
-      pdf.save('rapport-evaluation.pdf');
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pageHeight));
+      
+      // Appeler le callback pour continuer
+      callback();
+    }).catch(error => {
+      console.error('Erreur lors de la génération de la première page:', error);
+      document.body.removeChild(clone);
+      alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
+    });
+  }
+  
+  // Générer la deuxième page du PDF
+  private generateSecondPage(pdf: any, pageWidth: number, pageHeight: number, callback: Function) {
+    // Créer une copie du rapport pour la deuxième page
+    const element = this.contentToExport.nativeElement;
+    const clone = element.cloneNode(true) as HTMLElement;
+    document.body.appendChild(clone);
+    
+    // Conserver uniquement l'en-tête, la section .new-page et les sections suivantes
+    const reportContent = clone.querySelector('.report-content');
+    if (reportContent) {
+      // Supprimer toutes les sections avant .new-page
+      const newPageSection = reportContent.querySelector('.new-page');
+      if (newPageSection) {
+        let currentNode = reportContent.firstElementChild as HTMLElement;
+        while (currentNode && !currentNode.classList.contains('new-page')) {
+          const nextNode = currentNode.nextElementSibling as HTMLElement;
+          reportContent.removeChild(currentNode);
+          currentNode = nextNode;
+        }
+      }
+    }
+    
+    // Appliquer les styles nécessaires pour une capture fidèle
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = '210mm';
+    clone.style.height = 'auto';
+    clone.style.backgroundColor = 'white';
+    clone.style.padding = '30px';
+    clone.style.margin = '0';
+    clone.style.boxShadow = 'none';
+    clone.style.overflow = 'visible';
+    
+    // Générer l'image de la deuxième page
+    html2canvas(clone, {
+      scale: 3,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      imageTimeout: 0
+    }).then(canvas => {
+      // Supprimer le clone après la capture
+      document.body.removeChild(clone);
+      
+      // Ajouter l'image au PDF
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pageHeight));
+      
+      // Appeler le callback pour continuer
+      callback();
+    }).catch(error => {
+      console.error('Erreur lors de la génération de la deuxième page:', error);
+      document.body.removeChild(clone);
+      alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
     });
   }
 
@@ -519,12 +654,20 @@ export class EvaluationComponent {
       }
     }
 
+    // Importer Router depuis le constructeur
     const cleanUpAndRedirect = () => {
+      // Effacer toutes les données d'authentification
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       localStorage.removeItem('email');
       localStorage.removeItem('user');
-      location.replace('/login');
+      
+      // Utiliser le Router d'Angular au lieu de location.replace
+      // Cela garantit que le système de routage d'Angular est utilisé correctement
+      window.location.href = '/login';
+      
+      // Empêcher la navigation arrière après déconnexion
+      window.history.pushState(null, '', '/login');
     };
 
     if (email) {

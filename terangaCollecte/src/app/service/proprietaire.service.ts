@@ -13,4 +13,8 @@ export class ProprietaireService {
   getProprietaireCount(): Observable<number> {
     return this.http.get<number>(this.configService.getApiUrl('proprietaires/count'));
   }
+
+  getAllProprietaires(): Observable<any[]> {
+    return this.http.get<any[]>(this.configService.getApiUrl('proprietaires/all'));
+  }
 }

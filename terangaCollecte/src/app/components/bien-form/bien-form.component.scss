@@ -1,0 +1,154 @@
+.container {
+    width: 100%;
+    padding-top: 5.5em;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 1em;
+}
+.bien-formulaire h2 {
+    color: rgba(148, 92, 34, 1);
+    text-align: left;
+    margin-bottom: 1em;
+}
+  
+  
+.bien-formulaire .col-md-5 {
+  margin: 1em
+}
+
+
+  
+label {
+font-size: 1rem;
+color: #555;
+
+}
+  
+  input,
+  select,
+  textarea{
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+ 
+  input[type="number"],
+  select {
+    width: 100%;
+  }
+  
+  input[type="text"],
+  select {
+    width: 100%;
+  }
+  
+  input[type="date"],
+  select {
+    width: 100%;
+  }
+  
+  /* Styling for Sections */
+  #calcul {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+  }
+  
+.custom-file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  cursor: pointer;
+}
+
+.form-check.form-check-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.form-check-input[type="radio"] {
+  margin-right: 6px;
+  margin-top: 0;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.custom-file-input {
+  /* Masquer le nom natif du fichier sur certains navigateurs */
+  color: transparent;
+}
+
+.image-count {
+  font-size: 1rem;
+  color: #7a5c26;
+  font-weight: 500;
+}
+
+.image-preview-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.image-preview {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+
+    button {
+        width: 50%;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        border: none;
+        transition: background-color 0.3s ease;
+
+        &.cancel {
+            background-color: #e0e0e0;
+            color: #333;
+            &:hover {
+                background-color: #d0d0d0;
+            }
+        }                &.submit {
+            background-color: #C3AD65;
+            color: white;
+            &:hover {
+                background-color: #a08c51; /* Version plus foncée de #C3AD65 */
+            }
+        }
+    }
+}
+
+  
+  /* Responsive Media Query */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+    }
+  
+  }

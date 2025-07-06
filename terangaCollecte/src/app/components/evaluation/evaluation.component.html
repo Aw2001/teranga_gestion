@@ -74,10 +74,7 @@
                 <i class='bx bx-menu sidebarBtn' (click)="toggleSidebar()"></i>
             </div>
 
-            <!-- <div class="search-box">
-            <input type="text" placeholder="Rechercher...">
-            <i class='bx bx-search'></i>
-          </div>-->
+            <div class="nf-circle">NF</div>
 
         </nav>
 
@@ -86,7 +83,7 @@
             <!--Section info enquête-->
             <div id="calcul">
                 <h2>Evaluation</h2>
-                <label>Enquête</label>
+                <label>Enquêteur</label>
                 <input type="text" [(ngModel)]="enqueteur" name="enqueteur">
                 <label>Date de l'enquête</label>
                 <input type="date" [(ngModel)]="dateEnquete" name="dateEnquete">
@@ -260,7 +257,7 @@
             <form id="formulaireCalculEte">
                 <!-- Section 2: local -->
                 <div id="calcul">
-                    <h2>Evaluation du local</h2>
+                    <h2>Evaluation du bien</h2>
                     <label>Région</label>
                     <select id="region" name="region" [(ngModel)]="region" (change)="checkInputs3()" required>
                         <option>Dakar</option>
@@ -328,7 +325,7 @@
                     <p>
                         <strong>Surface corrigée: </strong> <span>{{surfaceCorrigee}}</span>
                         <strong>Prix du m2: </strong> <span>{{prixM2Local}}</span>
-                        <strong>Valeur du local: </strong> <span>{{valeurLocal}}</span>
+                        <strong>Valeur du bien: </strong> <span>{{valeurLocal}}</span>
 
                     </p>
                 </div>
@@ -474,239 +471,91 @@
                 </div>
             </form>
             <!--Section Pdf à générer-->
-            <div #calcul id="calcul">
-                <figure>
-                    <img src="assets/logo_ministere_finance.png" alt="Logo Ministère des Finances"/>
-                    <figcaption>DIRECTION DU CADASTRE</figcaption>
-                </figure>
-                <p class="pdf">Rapport d'évaluation cadastrale</p>
-                    <content>
-                        <section class="title">
-                            
-                            <ul>
-                                <li>
-                                    <span>Enquêteur : </span>
-                                    <span class="ng-binding">{{enqueteur}}</span>
-                                </li>
-                                <li>
-                                    <span>Date enquête : </span>
-                                    <span class="ng-binding">{{dateEnquete}}</span>
-                                </li>
-                                
-                            </ul>
-                        </section>
+            <!-- Conteneur principal du rapport PDF avec référence ViewChild -->
+            <div #calcul id="calcul" class="pdf-container">
+                <header>
+                    <!-- <figure>
+                        <img src="assets/logo_ministere_finance.png" alt="Logo Ministère des Finances"/>
+                        <figcaption>DIRECTION GÉNÉRALE DES IMPÔTS ET DOMAINES</figcaption>
+                        <div class="subtitle">DIRECTION DU CADASTRE</div>
+                    </figure> -->
+                    <h1 class="pdf"></h1>
+                    <div class="document-id">Rapport d'évaluation cadastrale</div>
+                </header>
+                <div class="report-content">
+                       
     
-                        <section class="receiver">
-                            <h3>Références cadastrales et situation de la propriété</h3>
-                            <table>
-                                <tbody>
-                                    
-                                    <tr>
-                                        <td>Numéro section : </td>
-                                        <td class="ng-binding">{{section}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NICAD : </td>
-                                        <td class="ng-binding">{{nicad}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Numéro parcelle : </td>
-                                        <td class="ng-binding">{{numParcelle}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Numéro TF : </td>
-                                        <td class="ng-binding">{{numTF}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rue : </td>
-                                        <td class="ng-binding">{{rue}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de construction : </td>
-                                        <td class="ng-binding">{{typeConstruction}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de toiture : </td>
-                                        <td class="ng-binding">{{typeToiture}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de sol : </td>
-                                        <td class="ng-binding">{{typeSol}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de menuiserie : </td>
-                                        <td class="ng-binding">{{typeMenuiserie}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de destination : </td>
-                                        <td class="ng-binding">{{destination}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Année de construction : </td>
-                                        <td class="ng-binding">{{anneeConstruction}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </section>
+                        
                         <section class="receiver">
                             <h3>Propriétaire</h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Prénom : </td>
-                                        <td class="ng-binding">{{prenom}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nom : </td>
-                                        <td class="ng-binding">{{nom}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Profession /Activité : </td>
-                                        <td class="ng-binding">{{profession}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>CNI : </td>
-                                        <td class="ng-binding">{{cni}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NINEA : </td>
-                                        <td class="ng-binding">{{ninea}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Loyer annuel : </td>
-                                        <td class="ng-binding">{{loyerAnnuel}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type de référence : </td>
-                                        <td class="ng-binding">{{typeReference}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Statut : </td>
-                                        <td class="ng-binding">{{statut}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="text-content">
+                                <p><strong>Prenom : </strong>{{prenom}}</p>
+                                <p><strong>Nom : </strong> {{nom}}</p>
+                                <p><strong>Profession : </strong>{{profession}}</p>
+                                <p><strong>CNI :</strong>{{cni}}</p>
+                                <p><strong>NINEA: </strong>{{ninea}}</p>
+                                <p><strong>Type de référence :</strong> {{typeReference}}</p>
+                                <p><strong>Loyer annuel :</strong> <span class="value-highlight">{{loyerAnnuel}} FCFA</span></p>
+                            </div>
                         </section>
                         <section class="receiver">
                             <h3>Evaluation du terrain</h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Région : </td>
-                                        <td class="ng-binding">{{region}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Département : </td>
-                                        <td class="ng-binding">{{departement}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Commune : </td>
-                                        <td class="ng-binding">{{commune}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Secteur : </td>
-                                        <td class="ng-binding">{{secteur}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zone : </td>
-                                        <td class="ng-binding">{{zone}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Surface bâtie : </td>
-                                        <td class="ng-binding">{{surfaceBatie}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Surface non bâtie : </td>
-                                        <td class="ng-binding">{{surfaceNonBatie}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur sol total : </td>
-                                        <td class="ng-binding">{{valeurSolTotal}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="text-content">
+                                <p>Le terrain est situé dans la zone <strong>{{zone || '...'}} </strong> du secteur <strong>{{secteur || '...'}}</strong> dans la commune de <strong>{{commune || '...'}}</strong>, département de <strong>{{departement || '...'}}</strong>, région de <strong>{{region || '...'}}</strong>.</p>
+                                <p><strong>Surface non bâtie :</strong> {{surfaceNonBatie}} m²</p>
+                                <p><strong>Valeur sol total :</strong> <span class="value-highlight">{{valeurSolTotal}} FCFA</span></p>
+                            </div>
                         </section>
                         <section class="receiver">
-                            <h3>Evaluation du local</h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Niveau : </td>
-                                        <td class="ng-binding">{{nbNiveau}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Catégorie : </td>
-                                        <td class="ng-binding">{{categorie}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Type immeuble : </td>
-                                        <td class="ng-binding">{{typeImmeuble}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur du local : </td>
-                                        <td class="ng-binding">{{valeurLocal}}</td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
+                            <h3>Evaluation du bien</h3>
+                            <div class="text-content">
+                                <p>Le bien est de catégorie <strong>{{categorie || '...'}}</strong>, de type <strong>{{typeImmeuble || '...'}}</strong> La construction est de type <strong>{{typeConstruction || '...'}}</strong> avec une toiture en <strong>{{typeToiture || '...'}}</strong>Le sol est en <strong>{{typeSol || '...'}}</strong> et la menuiserie est en <strong>{{typeMenuiserie || '...'}}</strong> Ce bien a été construit en : <strong>{{anneeConstruction || '...'}}</strong></p>
+                                <p><strong>NICAD :</strong> {{nicad}}</p>
+                                <p><strong>Surface bâtie :</strong> {{surfaceBatie}} m²</p>
+                                <p><strong>Valeur du bien :</strong> <span class="value-highlight">{{valeurLocal}} FCFA</span></p>
+                            </div>
                         </section>
-                        <section class="receiver">
+                        <!--A partir de cette section, le contenu sera mis dans la page suivante donc on aura un pdf avec deux pages-->
+                        <section class="receiver new-page">
                             <h3>Evaluation des cours, clôtures, dépendances et aménagements particuliers</h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Surface réelle des cours : </td>
-                                        <td class="ng-binding">{{surfaceReelleCours}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur des cours : </td>
-                                        <td class="ng-binding">{{valeurCours}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Surface réelle des clôtures : </td>
-                                        <td class="ng-binding">{{surfaceReelleCloture}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur des clôtures : </td>
-                                        <td class="ng-binding">{{valeurCloture}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur des dépendances : </td>
-                                        <td class="ng-binding">{{valeurDependance}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeurs des aménagements particuliers : </td>
-                                        <td class="ng-binding">{{valeurAmenagementParticulier}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="text-content">
+                                <p>La propriété comprend des cours d'une surface de <strong>{{surfaceReelleCours || '...' }} m²</strong> et des clôtures d'une surface de <strong>{{surfaceReelleCloture || '...' }} m².</strong></p>
+                                <p><strong>Valeur des cours :</strong> {{valeurCours}} FCFA</p>
+                                <p><strong>Valeur des clôtures :</strong> {{valeurCloture}} FCFA</p>
+                                <p><strong>Valeur des dépendances :</strong> {{valeurDependance}} FCFA</p>
+                                <p><strong>Valeur des aménagements particuliers :</strong> <span class="value-highlight">{{valeurAmenagementParticulier}} FCFA</span></p>
+                            </div>
                         </section>
                         <section class="receiver">
                             <h3>Evaluation de l'immeuble</h3>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Valeur totale de l'immeuble : </td>
-                                        <td class="ng-binding">{{valeurImmeuble}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Taux appliqué : </td>
-                                        <td class="ng-binding">{{taux}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Valeur locative : </td>
-                                        <td class="ng-binding">{{valeurLocative}}</td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
+                            <div class="text-content">
+                                <p>L'évaluation finale de l'immeuble prend en compte l'ensemble des éléments précédents pour déterminer sa valeur locative.</p>
+                                <p><strong>Valeur totale de l'immeuble :</strong> <span class="value-highlight">{{valeurImmeuble}} FCFA</span></p>
+                                <p><strong>Taux appliqué :</strong> {{taux}}%</p>
+                                <p class="total-value-text"><strong>Valeur locative :</strong> <span class="value-highlight">{{valeurLocative}} FCFA</span></p>
+                            </div>
                         </section>
-                    </content>
-        
+                    </div><!-- /.report-content -->
                     
-
+                    <footer>
+                        <div class="signature-section">
+                            <div class="signature-box">
+                                <p>L'Agent Évaluateur</p>
+                             
+                                <p class="name">{{enqueteur || ''}}</p>
+                            </div>
+                            <div class="signature-box">
+                                <p>Le Chef de Service</p>
+                               
+                                <p class="name"></p>
+                            </div>
+                        </div>
+                       
+                    </footer>
             </div>
-            <button type="button" class="exporter" (click)="exportToPDF()">Exporter</button>
+            <div class="button-container">
+                <button type="button" class="exporter" (click)="exportToPDF()">Exporter en PDF</button>
+            </div>
         </div>
 
     </section>
