@@ -59,6 +59,15 @@ export class AddRecensementModalComponent implements OnInit {
   
   ngOnInit(): void {
     this.loadRegions();
+    this.utilisateurService.retournerAgents().subscribe({
+      next: (data) => {
+        this.agents = JSON.parse(data);
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des agents:', err);
+        this.agents = [];
+      }
+    });
   }
 
   loadRegions() {
@@ -94,16 +103,8 @@ export class AddRecensementModalComponent implements OnInit {
       }
     });
 
-    // Charger les agents pour la région sélectionnée
-    this.utilisateurService.retournerAgents().subscribe({
-      next: (data) => {
-        this.agents = JSON.parse(data);
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement des agents:', err);
-        this.agents = [];
-      }
-    });
+   
+    
   }
   onDepartementChange(departementName: string) {
     this.recensement.departement = departementName;

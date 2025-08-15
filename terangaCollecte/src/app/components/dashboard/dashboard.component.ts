@@ -40,6 +40,7 @@ export class DashboardComponent{
   selectedParcelle: string = '';
   userEmail: string = '';
   username: string = '';
+  initial: string = '';
 
   constructor(
     private userService: UtilisateurService,
@@ -88,7 +89,10 @@ export class DashboardComponent{
       error: () => this.regions = []
     });
 
-    
+    this.userService.retourneInitial(localStorage.getItem('username') || '').subscribe({
+      next: (initial) => {this.initial = initial, console.log(this.initial)},
+      error: () => this.initial = ''
+    });
   }
 
   logout(): void {
